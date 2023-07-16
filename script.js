@@ -3,9 +3,11 @@ const allPs = document.body.querySelector(".container").querySelectorAll("p");
 const startButton = document.querySelector(".button");
 const resetButton = document.querySelector(".reset");
 const eraseButton =  document.body.querySelector(".container").querySelector("span");
+const generateButton = document.querySelector(".generate");
 
 
-startButton.addEventListener("click",initialMark);
+generateButton.addEventListener("click", gernerateSudoku)
+startButton.addEventListener("click",actuallyDo);
 resetButton.addEventListener("click", ()=>{
     for(let i=0; i< allTds.length; ++i){
         allTds[i].innerHTML="";
@@ -13,16 +15,37 @@ resetButton.addEventListener("click", ()=>{
 })
 
 let selected = "";
+let tdIndex;
 
 eraseButton.addEventListener("click",()=>{selected=""})
 for(let i=0; i<allTds.length; ++i){
     allTds[i].addEventListener("click",(event)=>{
-        event.target.innerText = selected})
+        for(let k=0; k<9; ++k){
+            allPs[k].style.backgroundColor="gray";
+        }
+        if(event.target.style.color !=="red"){
+            event.target.innerText = selected;
+            for(var x=0; x<81; ++x){
+                if(allTds[x]===event.target){
+                    break;
+                }
+            }
+            tdIndex=x;
+            if(resetArray[x]!==parseInt(event.target.innerHTML)){
+                console.log(resetArray[x])
+                event.target.style.textDecoration = "line-through"
+            }else{
+                event.target.style.textDecoration = "none";
+            }
+            
+        }
+        })
 }
 
 for(let i=0; i<allPs.length; ++i){
     allPs[i].addEventListener("click",function (event){
         selected = event.target.innerText;
+        event.target.style.backgroundColor = "rgb(98, 97, 97)"
     })
 }
  
@@ -33,28 +56,27 @@ for(let i=0; i< 9; ++i){
         sudoku[i][j] = new Array ("O","O","O","O","O","O","O","O","O");
     }   
 }
-populateSudoku()
+let sudokuArray= new Array(9);
+    for(let i=0; i<9;++i){
+        sudokuArray[i]=new Array(0,0,0,0,0,0,0,0,0);
+    }
+    let g=0;
+    let h=0;
+    let resetArray=[]
 function populateSudoku(){
-    let hardSudoku=[
-        0,0,0,0,9,0,0,2,0,
-        4,0,2,5,0,0,0,6,0,
-        0,5,3,0,7,0,0,4,0,
-        0,7,8,0,0,1,0,0,0,
-        9,0,0,0,5,0,0,0,0,
-        0,4,0,6,0,0,0,0,0,
-        0,0,0,0,0,7,0,0,2,
-        5,0,0,0,4,0,7,0,0,
-        0,0,0,0,0,0,1,0,6
-    ]
-    for(let i=0; i<81;i++){
-        if(hardSudoku[i]!==0){
-            allTds[i].innerHTML=hardSudoku[i];
+    let hardSudoku=sudokuArray;
+  
+    let counter=0;
+    for(let i=0; i<9;i++){
+        for(let j=0;j<9;++j){
+            allTds[counter].innerHTML=hardSudoku[i][j];
+            resetArray[counter]=hardSudoku[i][j];
+            counter++
         }
     }
 }
 function initialMark(){
     let counter=0;
-    let complete=false;
     for(let i=0; i<9; ++i){
         for(let j=0; j<9; ++j){
             if(allTds[counter].innerHTML.trim()!==""){
@@ -64,6 +86,11 @@ function initialMark(){
             counter++
         }
     }
+}
+function actuallyDo(){
+        initialMark();
+        let complete=false;
+
         while(!complete){
             let i=0;
             crossOut();
@@ -374,3 +401,128 @@ function findSeulPossibility(){
         }
     }
 }
+function makeSudoku(){
+    let randomArray=[];
+    while(randomArray.length < 9){
+        let randonumber = Math.floor(Math.random() * 9)+1;
+        if(randomArray.indexOf(randonumber)===-1){
+            randomArray.push(randonumber);
+        }
+    }
+    outer:
+    for(let i=1; i<10; ++i){
+        for(let w=0; w<9; ++w){
+            for(let j=0; j<9; ++j) {
+                let entry = randomArray[j];
+                if(checkValidity(entry)){
+                    sudokuArray[g][h]=entry;
+                    
+                    if(h===8){
+                        if(g==8){
+                            break outer;
+                        }
+                        ++g;
+                        h=-1;
+                    }
+                    ++h;
+                }
+                
+            }
+        }
+    }
+}
+function checkValidity(newEntry){
+    //check row
+
+    for(let j=0; j<9; ++j){
+        if(sudokuArray[g][j] && sudokuArray[g][j]===newEntry){
+            return false;
+        }
+    }
+    
+    //check column
+    
+    for(let j=0; j<9; ++j){
+        if(sudokuArray[j][h] && sudokuArray[j][h]=== newEntry){
+            return false;
+        }
+    }
+
+    //check squares
+    let col = (g-g%3);
+    let row = (h-h%3);
+    for(let i=col; i<col+3 ; ++i){
+        for(let j=row; j<row+3; ++j){
+            if(sudokuArray[i][j]===newEntry){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function eraseRandom(){
+    let randomArray=[];
+    let eraseArray=[];
+
+    while(randomArray.length<81){
+        let randomNumber = Math.floor(Math.random() *81);
+        if(randomArray.indexOf(randomNumber)===-1){
+            randomArray.push(randomNumber);
+        }
+    }
+    outer:
+    for(let i=0; i<81; ++i){
+        let temp;
+        temp=allTds[randomArray[i]].innerHTML;
+
+        for(let k=0; k<eraseArray.length; ++k){
+            allTds[eraseArray[k]].innerHTML="";
+                     
+        }
+        allTds[randomArray[i]].innerHTML="";
+            for(let z=0; z< 9; ++z){
+                for(let h=0; h<9; ++h){
+                    sudoku[z][h]=["O","O","O","O","O","O","O","O","O"];
+                    
+                }
+            }
+            initialMark();
+            crossOut();
+            identifyLone();
+            findSeulPossibility();
+            transferToTable();
+
+            if(allTds[randomArray[i]].innerHTML!==""){
+                eraseArray.push(randomArray[i]);
+            }else{
+                allTds[randomArray[i]].innerHTML=temp;
+            }
+        
+    }
+    for(let k=0; k<eraseArray.length; ++k){
+        allTds[eraseArray[k]].innerHTML="";
+    }
+    for(let k=0; k<81; ++k){
+        if(allTds[k].innerHTML!==""){
+            allTds[k].style.color="red";
+        }
+    }
+}
+function gernerateSudoku(){
+    ws.send("819")
+    makeSudoku()
+    populateSudoku()
+    eraseRandom();
+}
+    const ws = new WebSocket("ws://localhost:8082");
+
+    ws.addEventListener("open", ()=>{
+        let message= tdIndex<10 ? "0"+ tdIndex : ""+tdIndex;
+        message+= selected;
+        ws.send(message)
+    });
+
+    ws.addEventListener("message", ({data})=>{
+        allTds[parseInt(data.substring(0,2))].innerHTML= data.charAt(2);
+    })

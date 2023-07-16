@@ -36,8 +36,11 @@ p{
     padding:10px; 
     margin:30px 5px 50px 5px;     
     background-color: gray;
+    color:white
 }
-
+p:hover{
+    background-color: rgb(98, 97, 97);
+}
 span{
     cursor: pointer;
     font-weight: bold;
@@ -45,6 +48,10 @@ span{
     padding:10px; 
     margin:30px 5px 50px 5px;     
     background-color: gray;
+    color:white;
+}
+span:hover{
+    background-color: rgb(98, 97, 97);
 }
 .buttonContainer{
     display: flex;
@@ -60,4 +67,9 @@ button{
 }
 button:hover{
     background-color: rgb(54, 54, 114);
+}
+.generateContainer{
+    margin : 20px;
+    display: flex;
+    justify-content: center;
 }
