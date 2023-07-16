@@ -32,7 +32,6 @@ for(let i=0; i<allTds.length; ++i){
             }
             tdIndex=x;
             if(resetArray[x]!==parseInt(event.target.innerHTML)){
-                console.log(resetArray[x])
                 event.target.style.textDecoration = "line-through"
             }else{
                 event.target.style.textDecoration = "none";
