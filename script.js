@@ -524,7 +524,4 @@ function gernerateSudoku(){
     makeSudoku()
     populateSudoku()
     eraseRandom();
-}
-   
-
-    
+}   
