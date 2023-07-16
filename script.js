@@ -526,13 +526,7 @@ function gernerateSudoku(){
     populateSudoku()
     eraseRandom();
 }
-    const ws = new WebSocket("ws://localhost:8082");
-
-    ws.addEventListener("open", ()=>{
-        let message= tdIndex<10 ? "0"+ tdIndex : ""+tdIndex;
-        message+= selected;
-        ws.send(message)
-    });
+   
 
     ws.addEventListener("message", ({data})=>{
         allTds[parseInt(data.substring(0,2))].innerHTML= data.charAt(2);
