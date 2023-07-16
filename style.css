@@ -97,3 +97,15 @@ button:hover{
     display: flex;
     justify-content: center;
 }
+.hidden{
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+  /*  width:50%;
+    height:50%;*/
+    color: red;
+    font-size: 10em;
+    display:none;
+    background-color: white;
+}

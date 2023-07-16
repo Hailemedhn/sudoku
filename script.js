@@ -2,8 +2,9 @@ const allTds = document.getElementsByTagName("td");
 const allPs = document.body.querySelector(".container").querySelectorAll("p");
 const startButton = document.querySelector(".button");
 const resetButton = document.querySelector(".reset");
-const eraseButton =  document.body.querySelector(".container").querySelector("span");
+const eraseButton =  document.querySelector("span");
 const generateButton = document.querySelector(".generate");
+const gameOver=document.querySelector(".hidden");
 
 
 generateButton.addEventListener("click", gernerateSudoku)
@@ -35,6 +36,17 @@ for(let i=0; i<allTds.length; ++i){
                 event.target.style.textDecoration = "line-through"
             }else{
                 event.target.style.textDecoration = "none";
+                let r;
+                for( r=0; r<81; ++r){
+                    if(parseInt(allTds[r].innerHTML)!==resetArray[r]){
+                        break;
+                    }
+                }
+                if(r===81){
+                    gameOver.style.display="block";
+                    gameOver.addEventListener("click",()=>{gameOver.style.display="none"; 
+                })
+                }
             }
             
         }
