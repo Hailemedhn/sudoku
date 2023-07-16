@@ -528,6 +528,4 @@ function gernerateSudoku(){
 }
    
 
-    ws.addEventListener("message", ({data})=>{
-        allTds[parseInt(data.substring(0,2))].innerHTML= data.charAt(2);
-    })
+    
