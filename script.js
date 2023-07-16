@@ -521,7 +521,6 @@ function eraseRandom(){
     }
 }
 function gernerateSudoku(){
-    ws.send("819")
     makeSudoku()
     populateSudoku()
     eraseRandom();
