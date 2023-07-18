@@ -524,4 +524,31 @@ function gernerateSudoku(){
     makeSudoku()
     populateSudoku()
     eraseRandom();
+    let arrayToSend=[];
+    for(let i=0; i<81; ++i){
+        arrayToSend[i]=allTds[i];
+    }
+    sendMessage(arrayToSend.toString()+id)
 }   
+const socket = new WebSocket("ws://localhost:3000");
+
+socket.addEventListener("open", ()=>{
+    socket.send("Hello")
+});
+
+socket.addEventListener("message", (message)=>{
+    if(message.length>10){
+        for(let i=0;i<81;i++){
+            allTds.innerHTML=message.split(",")[i];  
+        }
+    }else{
+        if(message.substring(3,message.length-3)!==id){
+            allTds[parseInt(message.substing(1,3))].innerHTML=message.charAt(0);
+        }
+    }
+});
+
+const sendMessage=(message)=>{
+    socket.send(message);
+}
+let id= Math.floor(Math.random()*1000);
