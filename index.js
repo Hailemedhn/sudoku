@@ -17,4 +17,4 @@ wss.on("connection",(ws)=>{
    
 });
 app.get("/", (req,res)=>{res.send("Hello World!")});
-server.listen(80)
+server.listen(3000)
